@@ -76,7 +76,7 @@
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">' +
       '<path d="M6 6l12 12M18 6 6 18"/></svg>',
 
-    chevron:
+    chevronDown:
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">' +
       '<path d="m6 9 6 6 6-6"/></svg>',
 
@@ -153,9 +153,11 @@
            '<span>' + esc(label || 'фото') + '</span></div>';
   }
 
-  function media(src, alt, label) {
+  /* pos — какую часть снимка показывать в кадре, например «center 40%» */
+  function media(src, alt, label, pos) {
     return src
-      ? '<img src="' + esc(src) + '" alt="' + esc(alt || '') + '" loading="lazy">'
+      ? '<img src="' + esc(src) + '" alt="' + esc(alt || '') + '" loading="lazy"' +
+        (pos ? ' style="object-position:' + esc(pos) + '"' : '') + '>'
       : ph(label);
   }
 
@@ -644,7 +646,7 @@
   function person(p) {
     var awards = p.awards || [];
     return '<article class="person">' +
-             '<div class="person__photo">' + media(p.photo, p.name, 'фото') + '</div>' +
+             '<div class="person__photo">' + media(p.photo, p.name, 'фото', p.photoPos) + '</div>' +
              '<div class="person__body">' +
                '<h3 class="person__name">' + esc(p.name) + '</h3>' +
                '<p class="person__role">' + esc(p.role) + '</p>' +
@@ -928,7 +930,7 @@
                              '<button class="docs-group__head" type="button" aria-expanded="false" aria-controls="' + id + '">' +
                                '<span class="docs-group__title">' + esc(g.title) + '</span>' +
                                (count ? '<span class="docs-group__count">' + count + '</span>' : '') +
-                               '<span class="docs-group__arrow" aria-hidden="true">' + ICONS.chevron + '</span>' +
+                               '<span class="docs-group__arrow" aria-hidden="true">' + ICONS.chevronDown + '</span>' +
                              '</button>' +
                            '</h2>' +
                            '<div class="docs-group__body" id="' + id + '" hidden>' +
