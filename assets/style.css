@@ -1150,13 +1150,65 @@ main{ flex: 1; display: flex; flex-direction: column; }
 
 .docs-group:first-of-type{ margin-top: 30px; }
 
+.docs-group__h{ margin: 0; }
+
+.docs-group__head{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px 13px 18px;
+  border: 0;
+  border-radius: 14.5px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  text-align: left;
+  cursor: pointer;
+  transition: box-shadow .2s ease;
+}
+
+.docs-group__head:hover{ box-shadow: 0 7px 20px rgba(40, 30, 20, .13); }
+
 .docs-group__title{
-  margin: 0 0 6px;
-  font-size: 22px;
+  flex: 1;
+  font-size: 20px;
   font-weight: 700;
   line-height: 1.2;
   color: var(--ink);
 }
+
+.docs-group__count{
+  min-width: 25px;
+  padding: 2px 8px;
+  border-radius: 899px;
+  background: #F1ECE5;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+.docs-group__arrow{
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  transition: transform .26s cubic-bezier(.22,.8,.3,1);
+}
+
+.docs-group__arrow svg{ width: 21px; height: 21px; }
+
+.docs-group.is-open .docs-group__arrow{ transform: rotate(180deg); }
+
+.docs-group__body{
+  height: 0;
+  overflow: hidden;
+  transition: height .26s cubic-bezier(.22,.8,.3,1);
+}
+
+.docs-group__in{ padding: 16px 2px 2px; }
 
 .docs-group__text{
   margin: 0;
@@ -1167,6 +1219,7 @@ main{ flex: 1; display: flex; flex-direction: column; }
 }
 
 .docs-group .docs{ margin-top: 15px; }
+.docs-group__in > .docs:first-child{ margin-top: 0; }
 
 /* реквизиты строками, как в окошке «Поддержать» */
 .req__list{ margin-top: 15px; }
@@ -1497,6 +1550,21 @@ body.has-sky{ background: #DCE6EE; }
 .support__close:hover{ background: #F1ECE5; color: var(--ink); }
 .support__close svg{ width: 16px; height: 16px; }
 
+/* затемнение страницы, пока окошко открыто */
+.support__veil{
+  position: fixed;
+  inset: 0;
+  z-index: 19;
+  background: rgba(26, 24, 20, .42);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+
+.support__veil.is-on{ opacity: 1; pointer-events: auto; }
+
+@media (min-width: 761px){ .support__veil{ display: none; } }
+
 .support__title{
   margin: 0 32.5px 5.5px 0;
   font-size: 19px;
@@ -1608,8 +1676,27 @@ body.has-sky{ background: #DCE6EE; }
   .support__btn--contacts{ padding: 7px 9px; }
   .support__btn--contacts .support__label{ display: none; }
   .support__pay .support__row{ grid-template-columns: 1fr 29px; }
-  .support__panel{ position: fixed; top: auto; right: 14.5px; left: 14.5px; bottom: 14.5px; width: auto; max-height: calc(100vh - 29px); overflow: auto; }
-  .support__panel{ padding: 16px 16px 12.5px; }
+  .support__panel{
+    position: fixed; top: auto; right: 10px; left: 10px; bottom: 10px;
+    width: auto; max-height: calc(100vh - 20px); overflow: auto;
+    padding: 18px 16px 14px;
+    border-radius: 22px;
+    transform: translateY(16px);
+    transform-origin: bottom center;
+  }
+
+  /* крестик крупнее, чтобы попасть пальцем */
+  .support__close{
+    top: 9px; right: 9px;
+    width: 42px; height: 42px;
+    background: #F1ECE5;
+    color: var(--ink);
+  }
+  .support__close svg{ width: 19px; height: 19px; }
+  .support__title{ padding-right: 46px; }
+
+  .docs-group__head{ padding: 12px 13px 12px 15px; gap: 9px; }
+  .docs-group__title{ font-size: 18px; }
   .support__row{ grid-template-columns: 1fr 29px; row-gap: 0; padding: 6.5px 0; }
   .support__row dt{ grid-column: 1 / -1; font-size: 12.5px; }
   .support__row dd{ font-size: 13px; }

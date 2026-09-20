@@ -76,6 +76,10 @@
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">' +
       '<path d="M6 6l12 12M18 6 6 18"/></svg>',
 
+    chevron:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="m6 9 6 6 6-6"/></svg>',
+
     pin:
       '<svg viewBox="0 0 24 24" fill="currentColor">' +
       '<path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>',
@@ -916,20 +920,68 @@
     html += '<section class="wrap">' +
               '<div class="sheet">' +
                 (R.text ? '<div class="prose">' + paragraphs(R.text) + '</div>' : '') +
-                groups.map(function (g) {
+                groups.map(function (g, i) {
+                  var id = 'docsGroup' + i;
+                  var count = (g.docs || []).length;
                   return '<section class="docs-group">' +
-                           '<h2 class="docs-group__title">' + esc(g.title) + '</h2>' +
-                           (g.text ? '<p class="docs-group__text">' + esc(g.text) + '</p>' : '') +
-                           (g.req ? reqList() : '') +
-                           ((g.docs || []).length
-                             ? '<div class="docs">' + g.docs.map(docCard).join('') + '</div>'
-                             : '') +
+                           '<h2 class="docs-group__h">' +
+                             '<button class="docs-group__head" type="button" aria-expanded="false" aria-controls="' + id + '">' +
+                               '<span class="docs-group__title">' + esc(g.title) + '</span>' +
+                               (count ? '<span class="docs-group__count">' + count + '</span>' : '') +
+                               '<span class="docs-group__arrow" aria-hidden="true">' + ICONS.chevron + '</span>' +
+                             '</button>' +
+                           '</h2>' +
+                           '<div class="docs-group__body" id="' + id + '" hidden>' +
+                             '<div class="docs-group__in">' +
+                               (g.text ? '<p class="docs-group__text">' + esc(g.text) + '</p>' : '') +
+                               (g.req ? reqList() : '') +
+                               (count ? '<div class="docs">' + g.docs.map(docCard).join('') + '</div>' : '') +
+                             '</div>' +
+                           '</div>' +
                          '</section>';
                 }).join('') +
               '</div>' +
             '</section>';
     $('page').innerHTML = html;
     initCopy($('page'));
+    initFold($('page'));
+  }
+
+  /* блок раскрывается по нажатию на заголовок; закрыт, пока не откроют */
+  function initFold(root) {
+    Array.prototype.forEach.call(root.querySelectorAll('.docs-group'), function (g) {
+      var btn = g.querySelector('.docs-group__head');
+      var body = g.querySelector('.docs-group__body');
+
+      btn.addEventListener('click', function () {
+        var open = !g.classList.contains('is-open');
+        g.classList.toggle('is-open', open);
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+
+        if (REDUCE) {
+          body.hidden = !open;
+          body.style.height = open ? 'auto' : '0px';
+          return;
+        }
+
+        if (open) {
+          body.hidden = false;
+          body.style.height = '0px';
+          void body.offsetHeight;
+          body.style.height = body.scrollHeight + 'px';
+        } else {
+          body.style.height = body.scrollHeight + 'px';
+          void body.offsetHeight;
+          body.style.height = '0px';
+        }
+      });
+
+      body.addEventListener('transitionend', function (e) {
+        if (e.propertyName !== 'height') return;
+        if (g.classList.contains('is-open')) body.style.height = 'auto';
+        else body.hidden = true;
+      });
+    });
   }
 
   /* ============================================================
@@ -985,6 +1037,17 @@
 
   function telHref(phone) { return 'tel:' + String(phone).replace(/[^\d+]/g, ''); }
 
+  /* затемнение под окошком: на телефоне видно, что это отдельное окно */
+  function veil() {
+    var v = document.querySelector('.support__veil');
+    if (!v) {
+      v = document.createElement('div');
+      v.className = 'support__veil';
+      document.body.appendChild(v);
+    }
+    return v;
+  }
+
   /* кнопка и окошко под ней; одно открылось, другое закрылось */
   function initPop(pop, onOpen) {
     var btn = pop.querySelector('.support__btn');
@@ -992,12 +1055,14 @@
 
     function open() {
       if (onOpen) onOpen();
+      veil().classList.add('is-on');
       panel.hidden = false;
       void panel.offsetWidth;   /* чтобы проявление сработало сразу после показа */
       panel.classList.add('is-open');
       btn.setAttribute('aria-expanded', 'true');
     }
     function close(focusBack) {
+      veil().classList.remove('is-on');
       panel.classList.remove('is-open');
       btn.setAttribute('aria-expanded', 'false');
       setTimeout(function () { if (!panel.classList.contains('is-open')) panel.hidden = true; }, REDUCE ? 0 : 180);
