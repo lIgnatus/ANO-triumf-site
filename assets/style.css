@@ -1087,7 +1087,7 @@ main{ flex: 1; display: flex; flex-direction: column; }
 .pager__link strong{ font-size: 15.5px; font-weight: 700; line-height: 1.3; }
 .pager__link--next{ text-align: right; }
 
-/* ---------------- Отчёты ---------------- */
+/* ---------------- Документы ---------------- */
 
 .docs{
   max-width: 648px;
@@ -1143,20 +1143,35 @@ main{ flex: 1; display: flex; flex-direction: column; }
 
 .doc__btn--off:hover{ filter: none; }
 
-.req{
+.docs-group{
   max-width: 648px;
-  margin: 36px auto 0;
-  padding: 20px 21.5px;
-  border-radius: 14.5px;
-  border: 1px solid var(--line);
-  font-size: 13.5px;
+  margin: 38px auto 0;
+}
+
+.docs-group:first-of-type{ margin-top: 30px; }
+
+.docs-group__title{
+  margin: 0 0 6px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.docs-group__text{
+  margin: 0;
+  font-size: 14.5px;
   font-weight: 500;
-  line-height: 1.55;
+  line-height: 1.6;
   color: var(--ink-soft);
 }
 
-.req__title{ margin: 0 0 7px; font-size: 17px; font-weight: 700; color: var(--ink); }
-.req p{ margin: 0; }
+.docs-group .docs{ margin-top: 15px; }
+
+/* реквизиты строками, как в окошке «Поддержать» */
+.req__list{ margin-top: 15px; }
+.req__list .support__row{ padding: 9px 0; }
+.req__list .support__row dd{ font-size: 14.5px; }
 
 /* воздух перед панорамой на внутренних страницах */
 body:not([data-page="home"]) main{ padding-bottom: 65px; }

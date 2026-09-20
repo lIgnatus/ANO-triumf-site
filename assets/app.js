@@ -161,7 +161,7 @@
     { key: 'mission',  title: 'Миссия',  href: 'mission.html'  },
     { key: 'projects', title: 'Проекты', href: 'projects.html' },
     { key: 'films',    title: 'Фильмы',  href: 'cinema.html'   },
-    { key: 'reports',  title: 'Отчёты',  href: 'reports.html'  }
+    { key: 'reports',  title: 'Документы', href: 'reports.html'  }
   ];
 
   var SECTION_OF = {
@@ -878,62 +878,58 @@
     });
   }
 
-  /* ---------- Отчёты ---------- */
+  /* ---------- Документы: реквизиты, отчёты, исследования ---------- */
 
-  function renderReports() {
-    var R = S.reportsPage || {};
-    var docs = R.docs || [];
-
-    var html = hero(R.title, '', HOME);
-    html += '<section class="wrap">' +
-            '<div class="sheet">' +
-              '<div class="prose">' + paragraphs(R.text) + '</div>' +
-              '<div class="docs">' +
-                docs.map(function (d) {
-                  return '<div class="doc">' +
-                           '<span class="doc__ic">PDF</span>' +
-                           '<div class="doc__body">' +
-                             '<p class="doc__title">' + esc(d.title) + '</p>' +
-                             '<p class="doc__meta">' + esc(d.meta || (d.file ? 'PDF-документ' : 'Готовится к публикации')) + '</p>' +
-                           '</div>' +
-                           (d.file
-                             ? '<a class="doc__btn" href="' + esc(d.file) + '" download="' + esc(d.saveAs || '') + '">Скачать</a>'
-                             : '<span class="doc__btn doc__btn--off">Скоро</span>') +
-                         '</div>';
-                }).join('') +
-              '</div>' +
-              '<div class="req">' +
-                '<h2 class="req__title">Реквизиты</h2>' +
-                '<p>' + esc(org.full) + '</p>' +
-                '<p>ИНН ' + esc(org.inn) + ' · КПП ' + esc(org.kpp) + ' · ОГРН ' + esc(org.ogrn) + '</p>' +
-                '<p>' + esc(org.address) + '</p>' +
-                '<p>Директор ' + esc(org.director) + '</p>' +
-              '</div>' +
-            '</div>' +
-            '</section>';
-    $('page').innerHTML = html;
+  function docCard(d) {
+    return '<div class="doc">' +
+             '<span class="doc__ic">PDF</span>' +
+             '<div class="doc__body">' +
+               '<p class="doc__title">' + esc(d.title) + '</p>' +
+               '<p class="doc__meta">' + esc(d.meta || (d.file ? 'PDF-документ' : 'Готовится к публикации')) + '</p>' +
+             '</div>' +
+             (d.file
+               ? '<a class="doc__btn" href="' + esc(d.file) + '" download="' + esc(d.saveAs || '') + '">Скачать</a>'
+               : '<span class="doc__btn doc__btn--off">Скоро</span>') +
+           '</div>';
   }
 
-  /* ---------- 404: такой страницы нет ---------- */
+  /* реквизиты строками, каждую можно скопировать */
+  function reqList() {
+    var rows = [
+      ['Название', org.full],
+      ['ИНН', org.inn],
+      ['КПП', org.kpp],
+      ['ОГРН', org.ogrn],
+      ['Адрес', org.address],
+      ['Директор', org.director]
+    ].filter(function (r) { return r[1]; });
+    return '<dl class="support__list req__list">' +
+             rows.map(function (r) { return copyRow(r[0], r[1]); }).join('') +
+           '</dl>';
+  }
 
-  function renderNotFound(crumb) {
-    document.title = 'Такой страницы нет · АНО РСЗИ «Триумф»';
-    var html = hero('Такой страницы нет', '', crumb || HOME);
+  function renderDocs() {
+    var R = S.docsPage || {};
+    var groups = R.groups || [];
+
+    var html = hero(R.title || 'Документы', R.lead || '', HOME);
     html += '<section class="wrap">' +
-              '<div class="sheet lost">' +
-                '<p class="prose__lead">Похоже, ссылка устарела или в адресе закралась опечатка. ' +
-                'Зато всё остальное на месте, выбирайте, куда пойти дальше.</p>' +
-                '<div class="lost__links">' +
-                  SECTIONS.map(function (s) {
-                    return '<a class="lost__link s-' + s.key + '" href="' + s.href + '">' +
-                             '<span class="lost__ic" aria-hidden="true">' + ICONS[s.key] + '</span>' +
-                             '<span>' + s.title + '</span>' +
-                           '</a>';
-                  }).join('') +
-                '</div>' +
+              '<div class="sheet">' +
+                (R.text ? '<div class="prose">' + paragraphs(R.text) + '</div>' : '') +
+                groups.map(function (g) {
+                  return '<section class="docs-group">' +
+                           '<h2 class="docs-group__title">' + esc(g.title) + '</h2>' +
+                           (g.text ? '<p class="docs-group__text">' + esc(g.text) + '</p>' : '') +
+                           (g.req ? reqList() : '') +
+                           ((g.docs || []).length
+                             ? '<div class="docs">' + g.docs.map(docCard).join('') + '</div>'
+                             : '') +
+                         '</section>';
+                }).join('') +
               '</div>' +
             '</section>';
     $('page').innerHTML = html;
+    initCopy($('page'));
   }
 
   /* ============================================================
@@ -1026,20 +1022,9 @@
     var U = S.support || {};
     var bank = U.bank || {};
 
-    /* реквизиты АНО видны всегда; строки банка добавятся, когда их впишут в data.js */
+    /* реквизиты организации живут на странице «Документы», здесь только перевод */
     var hasBank = bank.account && bank.bik;
     var hasQr = U.qr || hasBank;
-    var rows = [
-      ['Получатель', org.full],
-      ['ИНН', org.inn],
-      ['КПП', org.kpp],
-      ['ОГРН', org.ogrn],
-      ['Расчётный счёт', bank.account],
-      ['Банк', bank.bankName],
-      ['БИК', bank.bik],
-      ['Корр. счёт', bank.corr],
-      ['Адрес', org.address]
-    ].filter(function (r) { return r[1]; });
 
     /* «Контакты»: телефон и почта с именем человека, который ответит */
     var contacts =
@@ -1083,14 +1068,11 @@
                 '<dl class="support__list">' +
                   copyRow('Телефон', U.phone, telHref(U.phone)) +
                   (U.phoneName ? copyRow('Получатель', U.phoneName) : '') +
+                  (U.phoneBank ? copyRow('Банк получателя', U.phoneBank) : '') +
+                  (U.phoneComment ? copyRow('Комментарий', U.phoneComment) : '') +
                 '</dl>' +
               '</div>'
             : '') +
-          (rows.length
-            ? '<p class="support__sub">Реквизиты организации</p>' +
-              '<dl class="support__list">' + rows.map(function (r) { return copyRow(r[0], r[1]); }).join('') + '</dl>'
-            : '') +
-          (!hasBank && U.note ? '<p class="support__note">' + esc(U.note) + '</p>' : '') +
         '</div>' +
       '</div>';
 
@@ -1137,7 +1119,13 @@
     initPop(pops[0]);
     initPop(pops[1], drawQr);
 
-    Array.prototype.forEach.call(box.querySelectorAll('.support__copy'), function (b) {
+    initCopy(box);
+  }
+
+  /* кнопки «скопировать» в окошках и на странице «Документы» */
+  function initCopy(root) {
+    if (!root) return;
+    Array.prototype.forEach.call(root.querySelectorAll('.support__copy'), function (b) {
       b.addEventListener('click', function () {
         copyText(b.getAttribute('data-copy')).then(function () {
           b.classList.add('is-done');
@@ -1162,7 +1150,7 @@
   if (PAGE === 'project')  renderDetail(S.projects, 'projects.html', 'Все проекты', 'project.html');
   if (PAGE === 'films')    renderList(S.filmsPage, S.films, 'film.html');
   if (PAGE === 'film')     renderDetail(S.films, 'cinema.html', 'Все фильмы', 'film.html');
-  if (PAGE === 'reports')  renderReports();
+  if (PAGE === 'reports')  renderDocs();
   if (PAGE === 'notfound') renderNotFound();
 
   renderPanorama();
