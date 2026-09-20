@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 160" preserveAspectRatio="xMidYMax slice" role="img" aria-label="Панорама села Раевский: вокзал, железная дорога, деревянная церковь">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F2F0EC"/>
+      <stop offset="1" stop-color="#E8E6DF"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="160" fill="url(#sky)"/>
+
+  <!-- дальние холмы -->
+  <path fill="#D7DDDC" d="M0 96c150-16 260 8 420 2s300-20 470-10 290 4 380-3 190 6 330 8v67H0z"/>
+
+  <!-- дальние дома -->
+  <g fill="#C6CFD0">
+    <g transform="translate(130 84)"><path d="M0 20V7l13-9 13 9v13z"/></g>
+    <g transform="translate(182 88)"><path d="M0 16V6l11-8 11 8v10z"/></g>
+    <g transform="translate(1428 84)"><path d="M0 20V7l13-9 13 9v13z"/></g>
+    <g transform="translate(1480 88)"><path d="M0 16V6l11-8 11 8v10z"/></g>
+    <g transform="translate(400 86)"><path d="M0 18V6l12-8 12 8v12z"/></g>
+    <g transform="translate(452 90)"><path d="M0 14V5l10-7 10 7v9z"/></g>
+  </g>
+
+  <!-- земля среднего плана -->
+  <path fill="#B8C3C5" d="M0 110c240-8 480 6 760 1s520-8 840 2v47H0z"/>
+
+  <!-- вокзал -->
+  <g fill="#95A7AE">
+    <path d="M640 74h230v38H640z"/>
+    <path d="M632 74l18-16h210l18 16z"/>
+    <path d="M735 58h40v54h-40z"/>
+    <path d="M728 58l27-17 27 17z"/>
+    <rect x="678" y="46" width="8" height="13"/>
+    <rect x="822" y="46" width="8" height="13"/>
+  </g>
+  <g fill="#E8E6DF">
+    <path d="M658 107V94a6 6 0 0 1 12 0v13z"/>
+    <path d="M686 107V94a6 6 0 0 1 12 0v13z"/>
+    <path d="M812 107V94a6 6 0 0 1 12 0v13z"/>
+    <path d="M840 107V94a6 6 0 0 1 12 0v13z"/>
+    <path d="M744 104V90a11 11 0 0 1 22 0v14z"/>
+    <rect x="712" y="68" width="86" height="8" rx="2"/>
+  </g>
+
+  <!-- деревянная церковь -->
+  <g fill="#95A7AE">
+    <path d="M1152 78h96v34h-96z"/>
+    <path d="M1144 78l56-20 56 20z"/>
+    <path d="M1252 56h34v56h-34z"/>
+    <path d="M1245 56l24-15 24 15z"/>
+    <path d="M1189 58h16v9h-16z"/>
+    <path d="M1189 46c-4 4-7 7-7 10 0 5 7 8 15 8s15-3 15-8c0-3-3-6-7-10-3-3-6-6-8-11-2 5-5 8-8 11z"/>
+    <path d="M1262 33c-5 5-8 8-8 12 0 6 8 9 17 9s17-3 17-9c0-4-3-7-8-12-4-4-7-7-9-12-2 5-5 8-9 12z"/>
+    <rect x="1197" y="24" width="3" height="14"/>
+    <rect x="1191" y="28" width="15" height="3"/>
+    <rect x="1269" y="10" width="3" height="16"/>
+    <rect x="1263" y="15" width="15" height="3"/>
+  </g>
+  <g fill="#E8E6DF">
+    <path d="M1166 108V94a7 7 0 0 1 14 0v14z"/>
+    <path d="M1206 108V94a7 7 0 0 1 14 0v14z"/>
+    <path d="M1259 92V79a6 6 0 0 1 12 0v13z"/>
+  </g>
+
+  <!-- столбы связи -->
+  <g fill="#A0AFB5">
+    <rect x="960" y="66" width="4" height="46"/><rect x="951" y="70" width="22" height="3"/>
+    <rect x="1020" y="72" width="4" height="40"/><rect x="1012" y="76" width="20" height="3"/>
+    <rect x="540" y="70" width="4" height="42"/><rect x="531" y="74" width="22" height="3"/>
+  </g>
+
+  <!-- деревья -->
+  <g fill="#7F939A">
+    <path d="M92 126l-26-40 10 3 16-30 16 30 10-3-26 40z"/>
+    <path d="M176 126l-21-34 8 3 13-26 13 26 8-3-21 34z"/>
+    <circle cx="258" cy="102" r="20"/><circle cx="278" cy="110" r="15"/><circle cx="238" cy="111" r="14"/>
+    <rect x="254" y="114" width="6" height="14"/>
+    <path d="M340 126l-19-31 8 2 11-23 11 23 8-2-19 31z"/>
+    <circle cx="1498" cy="100" r="21"/><circle cx="1523" cy="109" r="16"/><circle cx="1472" cy="110" r="15"/>
+    <rect x="1494" y="112" width="7" height="16"/>
+    <path d="M1390 126l-20-32 8 2 12-24 12 24 8-2-20 32z"/>
+  </g>
+
+  <!-- перрон и железная дорога -->
+  <path fill="#56686F" d="M0 124h1600v36H0z"/>
+  <g fill="#7A8C94">
+    <rect x="0" y="132" width="1600" height="4"/>
+    <rect x="0" y="148" width="1600" height="4"/>
+  </g>
+  <g fill="#4A5B62">
+    <rect x="16" y="129" width="8" height="25"/><rect x="76" y="129" width="8" height="25"/>
+    <rect x="136" y="129" width="8" height="25"/><rect x="196" y="129" width="8" height="25"/>
+    <rect x="256" y="129" width="8" height="25"/><rect x="316" y="129" width="8" height="25"/>
+    <rect x="376" y="129" width="8" height="25"/><rect x="436" y="129" width="8" height="25"/>
+    <rect x="496" y="129" width="8" height="25"/><rect x="556" y="129" width="8" height="25"/>
+    <rect x="616" y="129" width="8" height="25"/><rect x="676" y="129" width="8" height="25"/>
+    <rect x="736" y="129" width="8" height="25"/><rect x="796" y="129" width="8" height="25"/>
+    <rect x="856" y="129" width="8" height="25"/><rect x="916" y="129" width="8" height="25"/>
+    <rect x="976" y="129" width="8" height="25"/><rect x="1036" y="129" width="8" height="25"/>
+    <rect x="1096" y="129" width="8" height="25"/><rect x="1156" y="129" width="8" height="25"/>
+    <rect x="1216" y="129" width="8" height="25"/><rect x="1276" y="129" width="8" height="25"/>
+    <rect x="1336" y="129" width="8" height="25"/><rect x="1396" y="129" width="8" height="25"/>
+    <rect x="1456" y="129" width="8" height="25"/><rect x="1516" y="129" width="8" height="25"/>
+    <rect x="1576" y="129" width="8" height="25"/>
+  </g>
+</svg>

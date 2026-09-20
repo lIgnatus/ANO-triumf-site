@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Такой страницы нет · АНО РСЗИ «Триумф»</title>
+<meta name="robots" content="noindex">
+<script>
+  /* GitHub Pages показывает эту страницу по любому неверному адресу, в том числе
+     «вложенному». Чтобы стили и картинки нашлись, считаем адреса от корня сайта.
+     Сайт проекта на github.io лежит в папке с именем репозитория. */
+  (function () {
+    if (location.protocol === 'file:') return;
+    var parts = location.pathname.split('/').filter(Boolean);
+    var base = /\.github\.io$/.test(location.hostname) && parts.length ? '/' + parts[0] + '/' : '/';
+    document.write('<base href="' + base + '">');
+  })();
+</script>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600;700&amp;display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="notfound">
+
+<header class="topbar">
+  <div class="wrap topbar__in">
+    <a class="topbar__brand" href="index.html" aria-label="На главную">
+      <img src="assets/logo.png" alt="Триумф добрых дел">
+    </a>
+    <nav class="nav" id="nav" aria-label="Разделы сайта"></nav>
+    <div class="support" id="support"></div>
+  </div>
+</header>
+
+<main id="page"></main>
+
+<div class="panorama" id="panorama" role="img" aria-label="Станция Раевка и деревянная церковь"></div>
+
+<script src="data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
