@@ -1339,13 +1339,20 @@ body:not([data-page="home"]) main{ padding-bottom: 65px; }
 
   .block{ margin-top: 43px; }
 
-  .person{ grid-template-columns: 1fr; }
+  /* minmax(0, 1fr) обязателен: иначе кадр фотографии раздувает колонку
+     до своей высоты и текст уезжает за край карточки */
+  .person{ grid-template-columns: minmax(0, 1fr); align-content: start; }
   .person{ min-height: 0; }
-  /* портреты вертикальные, поэтому на телефоне кадр квадратный, а не широкий */
-  .person__photo{ aspect-ratio: 1 / 1; min-height: 0; }
-  /* текст прижат к фотографии, без пустоты посередине */
-  .person__body{ align-self: start; min-width: 0; }
-  .person__text{ overflow-wrap: anywhere; }
+  /* высота кадра задана прямо, без пропорции, чтобы не было обратной связи */
+  .person__photo{ aspect-ratio: auto; height: min(62vw, 300px); min-height: 0; min-width: 0; }
+
+  /* карточка чуть компактнее, текст прижат к фотографии */
+  .person__body{ align-self: start; min-width: 0; padding: 18px 18px 22px; }
+  .person__name{ font-size: 19px; }
+  .person__role{ margin: 4px 0 11px; font-size: 13px; }
+  .person__text{ max-width: none; font-size: 13.5px; line-height: 1.6; overflow-wrap: anywhere; }
+  .person__awards-title{ margin: 15px 0 6px; font-size: 14px; }
+  .person__awards li{ font-size: 13px; }
 
   .partners{ --gap: 8px; }
   .partners .partner{ flex-basis: calc((100% - 2 * var(--gap)) / 3); padding: 7px 7px 9px; gap: 6px; }
