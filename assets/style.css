@@ -90,7 +90,7 @@ main{ flex: 1; display: flex; flex-direction: column; }
 }
 
 .brand__logo{
-  width: clamp(101px, 10.8vw, 142px);
+  width: clamp(124px, 12.6vw, 172px);
   height: auto;
   display: block;
 }
@@ -270,11 +270,11 @@ main{ flex: 1; display: flex; flex-direction: column; }
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: #fff;
-  color: #22262B;
+  background: var(--gold);
+  color: #fff;
   display: grid;
   place-items: center;
-  box-shadow: 0 2.5px 9px rgba(0,0,0,.22);
+  box-shadow: 0 2.5px 9px rgba(0,0,0,.28);
   transition: transform .24s cubic-bezier(.22,.8,.3,1);
 }
 
@@ -357,10 +357,11 @@ main{ flex: 1; display: flex; flex-direction: column; }
   height: 30.5px;
   flex: 0 0 30.5px;
   border-radius: 50%;
-  border: 1.5px solid var(--line);
+  border: 1.5px solid var(--gold);
+  background: var(--gold);
   display: grid;
   place-items: center;
-  color: #4A4A4A;
+  color: #fff;
   transition: border-color .2s ease, color .2s ease;
 }
 
@@ -428,7 +429,7 @@ main{ flex: 1; display: flex; flex-direction: column; }
 
 .topbar__brand img{
   display: block;
-  width: 106px;
+  width: 126px;
   height: auto;
 }
 
@@ -684,12 +685,12 @@ main{ flex: 1; display: flex; flex-direction: column; }
   margin-top: -20.5px;
   border: 0;
   border-radius: 50%;
-  background: #fff;
-  color: var(--ink);
+  background: var(--accent, var(--brand));
+  color: #fff;
   display: grid;
   place-items: center;
   cursor: pointer;
-  box-shadow: 0 3.5px 12.5px rgba(40, 32, 22, .18);
+  box-shadow: 0 3.5px 12.5px rgba(40, 32, 22, .24);
   transition: opacity .2s ease, transform .2s ease, color .2s ease;
 }
 
@@ -697,7 +698,7 @@ main{ flex: 1; display: flex; flex-direction: column; }
 .carousel__btn--prev{ left: -16px; }
 .carousel__btn--prev svg{ transform: scaleX(-1); }
 .carousel__btn--next{ right: -16px; }
-.carousel__btn:hover{ color: var(--accent, var(--brand)); transform: scale(1.06); }
+.carousel__btn:hover{ filter: brightness(1.12); transform: scale(1.06); }
 .carousel__btn:disabled{ opacity: 0; pointer-events: none; }
 .carousel.is-static .carousel__btn{ display: none; }
 
@@ -992,14 +993,17 @@ main{ flex: 1; display: flex; flex-direction: column; }
 }
 
 .card__more{
+  align-self: flex-start;
   margin-top: auto;
-  padding-top: 5.5px;
+  padding: 7px 13px 7px 15px;
+  border-radius: 899px;
+  background: var(--accent);
   display: inline-flex;
   align-items: center;
   gap: 5.5px;
-  font-size: 14.5px;
+  font-size: 14px;
   font-weight: 700;
-  color: var(--accent);
+  color: #fff;
 }
 
 .card__more svg{ width: 12.5px; height: 12.5px; transition: transform .24s cubic-bezier(.22,.8,.3,1); }
@@ -1321,7 +1325,7 @@ body:not([data-page="home"]) main{ padding-bottom: 65px; }
   .topbar{ padding: 11px 0 7px; }
   .topbar__in{ flex-direction: column; align-items: stretch; gap: 9px; }
   .topbar__brand{ align-self: center; }
-  .topbar__brand img{ width: 93.5px; }
+  .topbar__brand img{ width: 110px; }
   .nav{ justify-content: space-between; }
   .nav__link{ padding: 7px 11px; font-size: 14px; }
 
@@ -2243,4 +2247,155 @@ a.prose__join:hover{
   .premiere{ flex-direction: column; align-items: flex-start; gap: 14px; padding: 20px; }
   .share{ margin-top: 32px; }
   .contacts__link{ font-size: 15px; }
+}
+
+
+/* ============================================================
+   Правки 30.09.2026
+   ============================================================ */
+
+/* список в тексте статьи, например номинации «РАЕВских встреч» */
+.prose__list{
+  margin: 0 0 1.05em;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: .55em;
+}
+
+.prose__list li{
+  position: relative;
+  padding-left: 20px;
+}
+
+.prose__list li::before{
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: .66em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+/* подпись внизу карточки, например у «Земли Альшея» */
+.card__note{
+  margin: 11px 0 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--accent);
+}
+
+/* награды на «Миссии» */
+.sheet--list{ padding-top: clamp(14px, 2vw, 22px); padding-bottom: clamp(14px, 2vw, 22px); }
+
+.awards{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 40px;
+}
+
+.award{
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.award__year{
+  font-weight: 700;
+  color: var(--gold-ink);
+}
+
+.award__medal{ display: block; width: 19px; height: 19px; color: var(--gold); }
+.award__medal svg{ width: 100%; height: 100%; }
+
+/* о нас пишут */
+.press{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14.5px;
+}
+
+.press__item{
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 17px 19px 19px;
+  background: var(--card);
+  border-radius: 14.5px;
+  box-shadow: var(--shadow);
+}
+
+.press__src{
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--gold-ink);
+}
+
+.press__title{
+  font-size: 15.5px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+a.press__item:hover{ box-shadow: var(--shadow-hi); }
+
+@media (max-width: 760px){
+  .awards{ grid-template-columns: 1fr; }
+  .press{ grid-template-columns: 1fr; gap: 10px; }
+  .award{ font-size: 13.5px; grid-template-columns: 44px 1fr; }
+}
+
+/* текст по ширине, без переносов слов */
+/* короткие строки в карточках и списке наград оставлены по левому краю,
+   в узкой колонке выравнивание по ширине даёт широкие пробелы */
+.prose p,
+.prose__list li,
+.person__text,
+.docs-group__text{
+  text-align: justify;
+  -webkit-hyphens: manual;
+          hyphens: manual;
+}
+
+/* нумерованные разделы в тексте, например номинации «РАЕВских встреч» */
+.prose__list--num{ counter-reset: n; gap: .95em; }
+.prose__list--num li{ counter-increment: n; padding-left: 40px; }
+.prose__list--num li::before{
+  content: counter(n);
+  top: .05em;
+  left: 0;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 27px;
+  text-align: center;
+}
+.prose__list--num li > strong:first-child{ display: block; margin-bottom: 2px; }
+
+/* награды на странице фильма */
+.article__awards{ max-width: none; font-size: 15px; }
+.article__awards li{ font-size: 15px; color: var(--ink); }
+
+/* внутренние страницы чуть мельче главной */
+body:not([data-page="home"]) main{ zoom: .93; }
+@media (max-width: 760px){
+  body:not([data-page="home"]) main{ zoom: .95; }
 }

@@ -139,12 +139,31 @@
       .replace(/\*([^*]+)\*/g, '<strong class="prose__accent">$1</strong>');
   }
 
+  /* абзацы статьи. «## » в начале строки даёт подзаголовок,
+     строки подряд с «- » собираются в список, с «1. », «2. » в нумерованный */
   function paragraphs(list) {
-    return (list || []).map(function (p) {
+    var html = '', items = [], numbered = false;
+    function flush() {
+      if (items.length) html += numbered
+        ? '<ol class="prose__list prose__list--num">' + items.join('') + '</ol>'
+        : '<ul class="prose__list">' + items.join('') + '</ul>';
+      items = [];
+    }
+    (list || []).forEach(function (p) {
       p = String(p);
-      if (p.indexOf('## ') === 0) return '<h3 class="prose__h">' + rich(p.slice(3)) + '</h3>';
-      return '<p>' + rich(p) + '</p>';
-    }).join('');
+      var num = /^\d+\.\s/.test(p);
+      if (p.indexOf('- ') === 0 || num) {
+        if (items.length && numbered !== num) flush();
+        numbered = num;
+        items.push('<li>' + rich(p.replace(/^(- |\d+\.\s)/, '')) + '</li>');
+        return;
+      }
+      flush();
+      if (p.indexOf('## ') === 0) html += '<h3 class="prose__h">' + rich(p.slice(3)) + '</h3>';
+      else html += '<p>' + rich(p) + '</p>';
+    });
+    flush();
+    return html;
   }
 
   /* серая плашка вместо фото */
@@ -613,6 +632,37 @@
               carousel((M.team || []).map(person), { kind: 'team', dots: true, label: 'Команда' }) +
             '</section>';
 
+    /* награды организации и команды */
+    if ((M.awards || []).length) {
+      html += '<section class="wrap block">' +
+                '<h2 class="block__title">' + esc(M.awardsTitle || 'Награды') + '</h2>' +
+                '<div class="sheet sheet--list">' +
+                  '<ul class="awards">' + M.awards.map(function (a) {
+                    return '<li class="award">' +
+                             '<span class="award__year">' +
+                               (a.year ? esc(a.year) : '<span class="award__medal" aria-hidden="true">' + ICONS.medal + '</span>') +
+                             '</span>' +
+                             '<span class="award__text">' + esc(a.text) + '</span>' +
+                           '</li>';
+                  }).join('') + '</ul>' +
+                '</div>' +
+              '</section>';
+    }
+
+    /* статьи о нас в газетах и на телевидении */
+    if ((M.press || []).length) {
+      html += '<section class="wrap block">' +
+                '<h2 class="block__title">' + esc(M.pressTitle || 'О нас пишут') + '</h2>' +
+                '<div class="press">' + M.press.map(function (a) {
+                  var inner = '<span class="press__src">' + esc(a.source) + '</span>' +
+                              '<span class="press__title">' + esc(a.title) + '</span>';
+                  return a.url
+                    ? '<a class="press__item" href="' + esc(a.url) + '" target="_blank" rel="noopener">' + inner + '</a>'
+                    : '<div class="press__item">' + inner + '</div>';
+                }).join('') + '</div>' +
+              '</section>';
+    }
+
     /* партнёры все сразу, маленькими плашками */
     html += '<section class="wrap block">' +
               '<h2 class="block__title">' + esc(M.partnersTitle || 'Партнёры') + '</h2>' +
@@ -703,6 +753,7 @@
                              (it.genre ? '<p class="card__genre">' + esc(it.genre) + '</p>' : '') +
                              '<h2 class="card__title">' + esc(it.title) + '</h2>' +
                              '<p class="card__text">' + esc((it.text || [])[0] || '') + '</p>' +
+                             (it.note ? '<p class="card__note">' + esc(it.note) + '</p>' : '') +
                              '<span class="card__more">Читать ' + ICONS.chevron + '</span>' +
                            '</div>' +
                          '</a>';
@@ -796,6 +847,15 @@
                   : '') +
                 (hasPhotos ? '<div class="article__media">' + photoCarousel(it.photos, it.title) + '</div>' : '') +
                 (t.length > intro ? '<div class="prose">' + paragraphs(t.slice(intro)) + '</div>' : '') +
+                /* награды фильма или проекта */
+                ((it.awards || []).length
+                  ? '<div class="article__extra">' +
+                      '<h2 class="block__title">Награды</h2>' +
+                      '<ul class="person__awards article__awards">' + it.awards.map(function (a) {
+                        return '<li><span class="person__medal" aria-hidden="true">' + ICONS.medal + '</span><span>' + esc(a) + '</span></li>';
+                      }).join('') + '</ul>' +
+                    '</div>'
+                  : '') +
                 /* дополнительные блоки внутри того же листа: свои фото или видео с заголовком */
                 (it.extra || []).map(function (b) {
                   return '<div class="article__extra">' +
