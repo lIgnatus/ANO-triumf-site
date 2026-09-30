@@ -1285,4 +1285,10 @@
   Array.prototype.forEach.call(document.querySelectorAll('.carousel'), initCarousel);
   initLightbox();
   initReveal();
+
+  /* помощник sw.js сверяет страницы с сервером, чтобы после обновления
+     сайта сразу была видна новая версия */
+  if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(function () {});
+  }
 })();
