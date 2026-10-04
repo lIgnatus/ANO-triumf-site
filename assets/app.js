@@ -693,10 +693,12 @@
     return '<p>' + link + esc(j.text || '') + '</p>';
   }
 
+  /* на телефоне портрет виден целиком, по бокам его же размытая копия (--src) */
   function person(p) {
     var awards = p.awards || [];
     return '<article class="person">' +
-             '<div class="person__photo">' + media(p.photo, p.name, 'фото', p.photoPos) + '</div>' +
+             '<div class="person__photo"' + (p.photo ? ' style="--src:url(&quot;' + esc(abs(p.photo)) + '&quot;)"' : '') + '>' +
+               media(p.photo, p.name, 'фото', p.photoPos) + '</div>' +
              '<div class="person__body">' +
                '<h3 class="person__name">' + esc(p.name) + '</h3>' +
                '<p class="person__role">' + esc(p.role) + '</p>' +

@@ -1347,16 +1347,29 @@ body:not([data-page="home"]) main{ padding-bottom: 65px; }
      до своей высоты и текст уезжает за край карточки */
   .person{ grid-template-columns: minmax(0, 1fr); align-content: start; }
   .person{ min-height: 0; }
-  /* высота кадра задана прямо, без пропорции, чтобы не было обратной связи */
-  .person__photo{ aspect-ratio: auto; height: min(62vw, 300px); min-height: 0; min-width: 0; }
+  /* высота кадра задана прямо, без пропорции, чтобы не было обратной связи.
+     Портрет виден целиком, по бокам его же размытая копия */
+  .person__photo{ aspect-ratio: auto; height: min(53vw, 255px); min-height: 0; min-width: 0;
+                  position: relative; overflow: hidden; isolation: isolate; }
+  .person__photo::before{
+    content: "";
+    position: absolute;
+    inset: -24px;
+    z-index: -1;
+    background: var(--src, none) center / cover no-repeat;
+    filter: blur(22px) brightness(.88) saturate(1.05);
+  }
+  .person__photo img{ object-fit: contain; object-position: center !important; }
 
-  /* карточка чуть компактнее, текст прижат к фотографии */
-  .person__body{ align-self: start; min-width: 0; padding: 18px 18px 22px; }
-  .person__name{ font-size: 19px; }
-  .person__role{ margin: 4px 0 11px; font-size: 13px; }
-  .person__text{ max-width: none; font-size: 13.5px; line-height: 1.6; overflow-wrap: anywhere; }
-  .person__awards-title{ margin: 15px 0 6px; font-size: 14px; }
-  .person__awards li{ font-size: 13px; }
+  /* карточка на 15% мельче прежней, текст прижат к фотографии */
+  .person__body{ align-self: start; min-width: 0; padding: 15px 15px 19px; }
+  .person__name{ font-size: 16px; }
+  .person__role{ margin: 3px 0 9px; font-size: 11.5px; }
+  .person__text{ max-width: none; font-size: 11.5px; line-height: 1.6; overflow-wrap: anywhere; }
+  .person__awards-title{ margin: 13px 0 5px; font-size: 12px; }
+  .person__awards{ gap: 6px; }
+  .person__awards li{ font-size: 11px; grid-template-columns: 15px 1fr; gap: 8px; }
+  .person__medal{ width: 15px; height: 15px; }
 
   .partners{ --gap: 8px; }
   .partners .partner{ flex-basis: calc((100% - 2 * var(--gap)) / 3); padding: 7px 7px 9px; gap: 6px; }
@@ -1364,7 +1377,7 @@ body:not([data-page="home"]) main{ padding-bottom: 65px; }
   .partner__name{ font-size: 11.5px; }
 
   /* стрелки по бокам фотографии, чтобы сразу было видно, что карточки листаются */
-  .carousel--team .carousel__btn{ top: 120px; bottom: auto; margin-top: 0; width: 33px; height: 33px; }
+  .carousel--team .carousel__btn{ top: calc(min(53vw, 255px) / 2 - 15px); bottom: auto; margin-top: 0; width: 30px; height: 30px; }
   .carousel--team .carousel__btn--prev{ left: 6px; }
   .carousel--team .carousel__btn--next{ right: 6px; }
   .carousel--team .carousel__btn svg{ width: 14px; height: 14px; }
